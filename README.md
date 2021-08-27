@@ -8,7 +8,7 @@ To follow this tutorial, you will need:
 
 * An ACR122U.
 * A contactless smart card following the ISO/IEC 14443 Type A specification (like MIFARE Ultralight and MIFARE Classic 1K tags).
-* A Linux distribution (this tutorial was tested on Fedora and Ubuntu but it should working on any other distro).
+* A Linux distribution (this tutorial was tested on Fedora and Ubuntu but it should be working on any other distro).
 * Some basic knowledge in C.
 
 ## 1. Installing the driver
