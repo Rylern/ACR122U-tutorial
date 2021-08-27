@@ -7,7 +7,7 @@ The ACR122U NFC Reader is a PC-linked contactless smart card reader/writer. In t
 To follow this tutorial, you will need:
 
 * An ACR122U.
-* A contactless smart card following the ISO/IEC 14443 Type A specification (like MIFARE Ultralight and MIFARE Classic 1K tags).
+* A contactless smart card following the ISO/IEC 14443 Type A specification (like the MIFARE Ultralight and MIFARE Classic 1K tags).
 * A Linux distribution (this tutorial was tested on Fedora and Ubuntu but it should be working on any other distro).
 * Some basic knowledge in C.
 
@@ -22,7 +22,7 @@ Two downloads are available for Linux:
 * [PC/SC Driver Package](https://www.acs.com.hk/download-driver-unified/11929/ACS-Unified-PKG-Lnx-118-P.zip), which contains packages for different distributions (Debian, Fedora, Ubuntu, Raspbian...). This is the easiest way to install the driver if you are using one of these distributions.
 * [PC/SC Drivers](https://www.acs.com.hk/download-driver-unified/12030/ACS-Unified-Driver-Lnx-Mac-118-P.zip), which contains the sources of the driver. Here, it's a bit more complex because we have to build the driver before installing it, but it can work on any Linux distribution.
 
-To make this tutorial as compatible as possible, I will show how to build and install the [PC/SC Drivers](https://www.acs.com.hk/download-driver-unified/12030/ACS-Unified-Driver-Lnx-Mac-118-P.zip). First, download and uncompress the sources:
+I will show how to build and install the [PC/SC Drivers](https://www.acs.com.hk/download-driver-unified/12030/ACS-Unified-Driver-Lnx-Mac-118-P.zip). First, download and uncompress the sources:
 
 ```shell
 wget https://www.acs.com.hk/download-driver-unified/12030/ACS-Unified-Driver-Lnx-Mac-118-P.zip
@@ -136,7 +136,7 @@ which may give you the reason of why the reader is not detected.
 
 Let's now create the application. I will use the C language with the *gcc* compiler, but it's also compatible in C++ with *g++*. To communicate with the reader, we are going to use the [PC/SC Lite API (WinSCard)](https://pcsclite.apdu.fr/api/group__API.html). All the code is written is a `main.c` file which is available on [GitHub](https://github.com/Rylern/ACR122U-tutorial).
 
-In this tutorial, we will be use the MIFARE Ultralight and MIFARE Classic 1K tags.
+In this tutorial, we will be using the MIFARE Ultralight and MIFARE Classic 1K tags.
 
 First, let's check that we can include the WinSCard library:
 
@@ -323,7 +323,7 @@ int main() {
 We have here two more global variables:
 
 * `connectionHandler`: used to communicate with the tag.
-* `activeProtocol`: is the established protocol to this connection. We need to keep track of the protocol because we let WinSCard choose which protocol to use, as we gave `SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1` as the fourth argument of the `SCardConnect` function. You can specify which protocol to use by giving only `SCARD_PROTOCOL_T0` for example. The protocol will be required when we want to send a custom command the the tag.
+* `activeProtocol`: it is the established protocol to this connection. We need to keep track of the protocol because we let WinSCard choose which protocol to use, as we gave `SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1` as the fourth argument of the `SCardConnect` function. You can specify which protocol to use by giving only `SCARD_PROTOCOL_T0` for example. The protocol will be required when we want to send a custom command to the the tag.
 
 Like before, the connection must be closed before the end of the program.
 
@@ -462,7 +462,7 @@ int main() {
 
 The `switch` statement is needed here because the established protocol to the connection will be determined on runtime. If we had only used `SCARD_PROTOCOL_T0` in the `SCardConnect` function, we could have directly written `pioSendPci = SCARD_PCI_T0;` instead of the switch statement.
 
-We have now a running application that can be used to send custom commands to the reader and the tag. We will apply to send and retrieve data from the MIFARE Ultralight and the MIFARE Classic 1k. Let's start with the MIFARE Ultralight.
+We have now a running application that can be used to send custom commands to the reader and the tag. We will apply this to send and retrieve data from the MIFARE Ultralight and the MIFARE Classic 1k. Let's start with the MIFARE Ultralight.
 
 The MIFARE Ultralight is composed of 16 pages with 4 bytes each. The user memory starts from the fifth page and the data is unprotected (we can access without authentication). You can find more information on the [data sheet](https://www.nxp.com/docs/en/data-sheet/MF0ICU1.pdf) of the tag.
 
@@ -529,7 +529,7 @@ int main() {
 }
 ```
 
-Finally, let's do the same but for the MIFARE Classic 1k. This tag consists of 16 sectors of 4 blocks, each block containing 16 bytes. The data is protected by a 6-bytes key, the default key being `FFh FFh FFh FFh FFh FFh`. You can find more information on the [data sheet](https://www.nxp.com/docs/en/data-sheet/MF1S50YYX_V1.pdf) of the tag.
+Finally, let's do the same with the MIFARE Classic 1k. This tag consists of 16 sectors of 4 blocks, each block containing 16 bytes. The data is protected by a 6-bytes key, the default key being `FFh FFh FFh FFh FFh FFh`. You can find more information on the [data sheet](https://www.nxp.com/docs/en/data-sheet/MF1S50YYX_V1.pdf) of the tag.
 
 With the MIFARE Classic 1k, we need do authenticate before accessing a sector, which is indicated on page 12 and 13 of the [API Driver Manual of ACR122U](https://www.acs.com.hk/download-manual/419/API-ACR122U-2.04.pdf).
 
