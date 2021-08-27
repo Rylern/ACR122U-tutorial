@@ -4,6 +4,13 @@
 
 The ACR122U NFC Reader is a PC-linked contactless smart card reader/writer. In this tutorial, we are going to see how to create a simple C/C++ application running on Linux that communicates with the ACR122U. This application will be used to send and retrieve data from the MIFARE Ultralight and MIFARE Classic 1K tags.
 
+To follow this tutorial, you will need:
+
+* An ACR122U.
+* A contactless smart card following the ISO/IEC 14443 Type A specification (like MIFARE Ultralight and MIFARE Classic 1K tags).
+* A Linux distribution (this tutorial was tested on Fedora and Ubuntu but it should working on any other distro).
+* Some basic knowledge in C.
+
 ## 1. Installing the driver
 
 The first step is to install the driver of the ACR122U. This step is needed for both **developing** and **running** the application we are going to create.
@@ -36,10 +43,14 @@ In addition, you will need to install these two other packages:
 * pcsclite-devel
 * libusb-devel
 
-So you should install all of these packages first. On Fedora, the command would be:
+So you should install all of these packages first. On Fedora and Ubuntu, the command would be:
 
 ```shell
+# Fedora
 sudo dnf install pcsc-lite libusb flex perl pkg-config pcsc-lite-devel libusb-devel
+
+# Ubuntu
+sudo apt-get install pcscd libpcsclite1 libusb-1.0-0 flex perl pkg-config libpcsclite-dev libusb-1.0-0-dev
 ```
 
 Then we can uncompress, configure, build, and install the sources:
@@ -48,6 +59,7 @@ Then we can uncompress, configure, build, and install the sources:
 tar -xf acsccid-1.1.8.tar.bz2
 cd acsccid-1.1.8/
 ./configure
+./configure --disable-dependency-tracking # for Ubuntu
 make
 sudo make install
 ```
@@ -75,10 +87,14 @@ The next step is to install the SDK, which is required for **developing** the ap
 
 We will not use the SDK proposed on the official website. It is not open-source and only available for the i386 and x86_64 CPU architecture, which means that it is not possible to use it on Raspberry Pi for example (with their ARM CPU architecture).
 
-Instead, we are going to use [PCSC lite](https://pcsclite.apdu.fr/). You will need the `systemd-devel` package:
+Instead, we are going to use [PCSC lite](https://pcsclite.apdu.fr/). You will need the `systemd-devel` package, as well as the `libudev-dev` package for Ubuntu:
 
 ```shell
+# Fedora
 sudo dnf install systemd-devel
+
+# Ubuntu
+sudo apt-get install libsystemd-dev libudev-dev
 ```
 
 Then you can download, uncompress, configure, build, and install the sources:
