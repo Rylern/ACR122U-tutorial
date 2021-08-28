@@ -268,6 +268,8 @@ int main() {
 
 We add a global variable `reader` which will be used to identify the reader for further use. The function `SCardListReaders` allocates some memory for `reader`, which has to be freed with the `SCardFreeMemory` function before the end of the program. If you get an error here even so the reader is plugged in, be sure to check that the ACR122U is detected by your computer.
 
+Note that if the `SCardListReaders` function fails, the program exits directly without releasing the context. I kept this behavior to make this tutorial as simple as possible, but this is not something you want to do with real applications.
+
 The next step is to establish a connection with a tag. Put a tag on the reader (for example a MIFARE Ultralight), and run the following code:
 
 ```c
