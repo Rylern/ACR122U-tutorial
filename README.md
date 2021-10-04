@@ -81,6 +81,8 @@ This is used to avoid conflicts between the driver and one of the default kernel
 
 You can now reboot your computer.
 
+If you are using Yocto, I created a recipe available [here](https://github.com/Rylern/acsccid-yocto).
+
 ## 2. Installing the SDK
 
 The next step is to install the SDK, which is required for **developing** the application but not for running it.
